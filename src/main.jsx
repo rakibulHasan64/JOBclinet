@@ -8,6 +8,8 @@ import AllAbout from './componet/abut/AllAbout.jsx';
 import { ClerkProvider } from '@clerk/clerk-react';
 import PostJob from './componet/postjob/PostJob.jsx';
 import { ToastContainer } from 'react-toastify';
+import AllJobs from './componet/home/AllJobs.jsx';
+import AllJobLayout from './componet/home/AllJobLayout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,12 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <AllAbout />
+
+      },
+
+      {
+        path: "/alljob",
+        element: <AllJobLayout />
 
       },
 

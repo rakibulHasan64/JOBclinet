@@ -7,7 +7,7 @@ function HomeLayout() {
       <>
          
          <Banner />
-         <AllJobs />
+         
          
       </>
    );

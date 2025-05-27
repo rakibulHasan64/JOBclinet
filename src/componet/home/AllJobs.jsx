@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import AllJobsCard from "./AllJobsCard";
 import axios from "axios";
 import { ImTab } from "react-icons/im";
+import { FaFilter } from "react-icons/fa";
 
 
 
@@ -25,10 +26,11 @@ function AllJobs() {
       <>
          
          <div className="bg-green-50 min-h-screen py-10 px-4">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto mt-14">
                <div className="flex items-center justify-between mb-6">
+
                   <button className="flex items-center gap-1 text-sm px-4 py-2 border rounded-md hover:bg-gray-100 bg-white text-gray-700">
-                     <i className="fa-solid fa-filter"></i> Filter
+                     <FaFilter /> Filter
                   </button>
                   <p className="text-gray-600 text-sm">
                      All <span className="font-semibold">{job.length}</span> jobs found

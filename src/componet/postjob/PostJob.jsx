@@ -42,7 +42,7 @@ function PostJob() {
    
 
    return (
-      <div className="max-w-6xl mx-auto p-6 bg-white rounded-xl  mt-10">
+      <div className="max-w-6xl mx-auto p-6 bg-white rounded-xl  ">
          <h2 className="text-3xl font-bold text-green-600 mb-6 mt-8 text-center">Post a Job</h2>
          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
