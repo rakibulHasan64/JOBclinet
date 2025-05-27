@@ -1,159 +1,126 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
+import { BiLogInCircle } from "react-icons/bi";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Naver = () => {
-   const [open, setOpen] = useState(false);
+export const Naver = () => {
+   const navLinks = [
+      { name: 'Home', path: '/' },
+      { name: 'All Rooms', path: '/rooms' },
+      { name: 'Contact', path: '/add' },
+      { name: 'AbdRoome', path: '/addroome' },
+   ];
+
+   const [isScrolled, setIsScrolled] = useState(false);
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const navigate = useNavigate();
+   const location = useLocation();
+
+   const { openSignIn } = useClerk();
+   const { user } = useUser();
+
+   useEffect(() => {
+      if (location.pathname !== "/") {
+         setIsScrolled(true);
+      } else {
+         setIsScrolled(false);
+      }
+
+      const handleScroll = () => {
+         setIsScrolled(window.scrollY > 10);
+      };
+
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+   }, [location.pathname]);
 
    return (
-      <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
-
-         <NavLink to="/">
+      <nav className={`
+      fixed top-0 left-0 w-full z-50 transition-all duration-500
+      flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32
+      ${isScrolled ? "bg-red-500 shadow-md text-black py-3 md:py-4" : "bg-transparent bg-amber-700 text-black py-4 md:py-6"}
+    `}>
+         {/* Logo */}
+         <a href="/" className="flex items-center gap-2">
             <img
+               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/dummyLogo/dummyLogoDark.svg"
+               alt="logo"
                className="h-9"
-               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/dummyLogo/dummyLogoColored.svg"
-               alt="dummyLogoColored"
             />
-         </NavLink>
+         </a>
 
-         {/* Desktop Menu */}
-         <div className="hidden sm:flex items-center gap-8">
-            <NavLink
-               to="/"
-               className={({ isActive }) =>
-                  isActive ? "text-indigo-600 font-semibold" : ""
-               }
-            >
-               Home
-            </NavLink>
-
-            <NavLink
-               to="/about"
-               className={({ isActive }) =>
-                  isActive ? "text-indigo-600 font-semibold" : ""
-               }
-            >
-               About
-            </NavLink>
-
-            <NavLink
-               to="/contact"
-               className={({ isActive }) =>
-                  isActive ? "text-indigo-600 font-semibold" : ""
-               }
-            >
-               Contact
-            </NavLink>
-
-            <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-               <input
-                  className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
-                  type="text"
-                  placeholder="Search products"
-               />
-               <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-               >
-                  <path
-                     d="M10.836 10.615 15 14.695"
-                     stroke="#7A7B7D"
-                     strokeWidth="1.2"
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                  />
-                  <path
-                     clipRule="evenodd"
-                     d="M9.141 11.738c2.729-1.136 4.001-4.224 2.841-6.898S7.67.921 4.942 2.057C2.211 3.193.94 6.281 2.1 8.955s4.312 3.92 7.041 2.783"
-                     stroke="#7A7B7D"
-                     strokeWidth="1.2"
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                  />
-               </svg>
-            </div>
-
-            <div className="relative cursor-pointer">
-               <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-               >
-                  <path
-                     d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0"
-                     stroke="#615fff"
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                  />
-               </svg>
-               <button className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full">
-                  3
-               </button>
-            </div>
-
-            <button className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
-               Login
+         {/* Nav Links */}
+         <div className="hidden md:flex items-center gap-4 lg:gap-8">
+            {navLinks.map((link, i) => (
+               <a key={i} href={link.path} className="group flex flex-col gap-0.5">
+                  {link.name}
+                  <div className="h-0.5 w-0 group-hover:w-full transition-all duration-300 bg-white" />
+               </a>
+            ))}
+            <button className="border px-4 py-1 text-sm font-light rounded-full">
+               New Launch
             </button>
          </div>
 
-         <button
-            onClick={() => setOpen(!open)}
-            aria-label="Menu"
-            className="sm:hidden"
-         >
-            {/* Menu Icon SVG */}
-            <svg
-               width="21"
-               height="15"
-               viewBox="0 0 21 15"
-               fill="none"
-               xmlns="http://www.w3.org/2000/svg"
-            >
-               <rect width="21" height="1.5" rx=".75" fill="#426287" />
-               <rect x="8" y="6" width="13" height="1.5" rx=".75" fill="#426287" />
-               <rect x="6" y="13" width="15" height="1.5" rx=".75" fill="#426287" />
+         {/* User Auth / Login */}
+         <div className="hidden md:flex items-center gap-4">
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+               <circle cx="11" cy="11" r="8" />
+               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-         </button>
+
+            {user ? (
+               <div className="flex items-center gap-2">
+                  <UserButton afterSignOutUrl="/" />
+                  <button onClick={() => navigate("/my-booking")} className="flex items-center gap-1 px-3 py-1 border rounded-full text-sm">
+                     <BiLogInCircle /> My Bookings
+                  </button>
+               </div>
+            ) : (
+               <button onClick={openSignIn} className="bg-black text-white px-8 py-2.5 rounded-full ml-4">
+                  Login
+               </button>
+            )}
+         </div>
+
+         {/* Mobile Menu Toggle */}
+         <div className="flex items-center gap-3 md:hidden">
+            <svg onClick={() => setIsMenuOpen(!isMenuOpen)} className="h-6 w-6 cursor-pointer" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+               <line x1="4" y1="6" x2="20" y2="6" />
+               <line x1="4" y1="12" x2="20" y2="12" />
+               <line x1="4" y1="18" x2="20" y2="18" />
+            </svg>
+         </div>
 
          {/* Mobile Menu */}
-         <div
-            className={`${open ? "flex" : "hidden"
-               } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
-         >
-            <NavLink
-               to="/"
-               onClick={() => setOpen(false)}
-               className="block"
-            >
-               Home
-            </NavLink>
-
-            <NavLink
-               to="/about"
-               onClick={() => setOpen(false)}
-               className="block"
-            >
-               About
-            </NavLink>
-
-            <NavLink
-               to="/contact"
-               onClick={() => setOpen(false)}
-               className="block"
-            >
-               Contact
-            </NavLink>
-
-            <button className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm">
-               Login
+         <div className={`fixed top-0 left-0 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            <button className="absolute top-4 right-4" onClick={() => setIsMenuOpen(false)}>
+               <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+               </svg>
             </button>
+
+            {navLinks.map((link, i) => (
+               <a key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
+                  {link.name}
+               </a>
+            ))}
+
+            <button className="border px-4 py-1 text-sm font-light rounded-full">
+               New Launch
+            </button>
+
+            {user ? (
+               <button onClick={() => navigate("/my-booking")} className="bg-black text-white px-8 py-2.5 rounded-full">
+                  My Booking
+               </button>
+            ) : (
+               <button onClick={openSignIn} className="bg-black text-white px-8 py-2.5 rounded-full">
+                  Login
+               </button>
+            )}
          </div>
       </nav>
    );
 };
-
-export default Naver;

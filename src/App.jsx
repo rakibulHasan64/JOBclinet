@@ -1,19 +1,20 @@
 import { Outlet } from "react-router-dom"
-import Naver from "./componet/home/Naver"
 import Footer from "./componet/home/Footer"
+import { Naver } from "./componet/home/Naver"
 
 
 function App() {
-  
+
 
   return (
     <>
-      
+
       <Naver />
+
       <Outlet />
       <Footer />
-    
-      
+
+
     </>
   )
 }
