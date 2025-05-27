@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const Naver = () => {
    const navLinks = [
       { name: 'Home', path: '/' },
-      { name: 'All Rooms', path: '/rooms' },
+      { name: 'Post Job', path: '/PostJob' },
       { name: 'Contact', path: '/add' },
       { name: 'AbdRoome', path: '/addroome' },
    ];
@@ -17,9 +17,12 @@ export const Naver = () => {
    const location = useLocation();
 
    const { openSignIn } = useClerk();
-   const { user } = useUser();
+   const { user,email } = useUser();
 
-   useEffect(() => {
+   console.log(user, email);
+   
+
+   useEffect(() => { 
       if (location.pathname !== "/") {
          setIsScrolled(true);
       } else {
@@ -49,7 +52,7 @@ export const Naver = () => {
             />
          </a>
 
-         {/* Nav Links */}
+
          <div className="hidden md:flex items-center gap-4 lg:gap-8">
             {navLinks.map((link, i) => (
                <a key={i} href={link.path} className="group flex flex-col gap-0.5">
@@ -62,7 +65,7 @@ export const Naver = () => {
             </button>
          </div>
 
-         {/* User Auth / Login */}
+      
          <div className="hidden md:flex items-center gap-4">
             <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                <circle cx="11" cy="11" r="8" />
@@ -73,7 +76,7 @@ export const Naver = () => {
                <div className="flex items-center gap-2">
                   <UserButton afterSignOutUrl="/" />
                   <button onClick={() => navigate("/my-booking")} className="flex items-center gap-1 px-3 py-1 border rounded-full text-sm">
-                     <BiLogInCircle /> My Bookings
+                     <BiLogInCircle /> My post
                   </button>
                </div>
             ) : (
@@ -83,7 +86,7 @@ export const Naver = () => {
             )}
          </div>
 
-         {/* Mobile Menu Toggle */}
+
          <div className="flex items-center gap-3 md:hidden">
             <svg onClick={() => setIsMenuOpen(!isMenuOpen)} className="h-6 w-6 cursor-pointer" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                <line x1="4" y1="6" x2="20" y2="6" />

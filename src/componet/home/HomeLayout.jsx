@@ -1,3 +1,4 @@
+import AllJobs from "./AllJobs";
 import Banner from "./Banner";
 
 
@@ -6,6 +7,7 @@ function HomeLayout() {
       <>
          
          <Banner />
+         <AllJobs />
          
       </>
    );

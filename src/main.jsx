@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomeLayout from './componet/home/HomeLayout.jsx';
 import AllAbout from './componet/abut/AllAbout.jsx';
 import { ClerkProvider } from '@clerk/clerk-react';
+import PostJob from './componet/postjob/PostJob.jsx';
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -23,16 +25,21 @@ const router = createBrowserRouter([
         element: <AllAbout />
 
       },
+
+      {
+        path: "/PostJob",
+        element: <PostJob />
+      }
     ]
   },
 ]);
-
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ClerkProvider
-      publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
-    >
-      <RouterProvider router={router} />
+    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+      <>
+        <RouterProvider router={router} />
+        <ToastContainer position="top-right" autoClose={3000} />
+      </>
     </ClerkProvider>
   </StrictMode>
 );
