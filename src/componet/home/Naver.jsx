@@ -4,23 +4,28 @@ import { BiLogInCircle } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const Naver = () => {
+   const { user } = useUser();
+   
    const navLinks = [
       { name: 'Home', path: '/' },
       { name: 'AllJob', path: '/alljob' },
-      { name: 'Post Job', path: '/PostJob' },
-   
-      { name: 'AbdRoome', path: '/addroome' },
+      // শুধু যদি user থাকে তাহলে এই লিংক যোগ করো
+      ...(user ? [
+         { name: 'Post Job', path: '/PostJob' },
+         { name: 'Add Room', path: '/addroome' },
+         { name: 'My Post', path: '/Addjob' }
+      ] : [])
    ];
-
+    
    const [isScrolled, setIsScrolled] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const navigate = useNavigate();
    const location = useLocation();
 
    const { openSignIn } = useClerk();
-   const { user,email } = useUser();
+   
 
-   console.log(user, email);
+
    
 
    useEffect(() => { 
@@ -42,7 +47,7 @@ export const Naver = () => {
       <nav className={`
       fixed top-0 left-0 w-full z-50 transition-all duration-500
       flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32
-      ${isScrolled ? "bg-red-500 shadow-md text-black py-3 md:py-4" : "bg-transparent bg-amber-700 text-black py-4 md:py-6"}
+      ${isScrolled ? "bg-red-100 shadow-md text-black py-3 md:py-4" : "bg-transparent bg-amber-700 text-black py-4 md:py-6"}
     `}>
          {/* Logo */}
          <a href="/" className="flex items-center gap-2">

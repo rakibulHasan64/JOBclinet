@@ -10,6 +10,7 @@ import PostJob from './componet/postjob/PostJob.jsx';
 import { ToastContainer } from 'react-toastify';
 import AllJobs from './componet/home/AllJobs.jsx';
 import AllJobLayout from './componet/home/AllJobLayout.jsx';
+import MyPost from './componet/home/MyPost.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,12 @@ const router = createBrowserRouter([
       {
         path: "/alljob",
         element: <AllJobLayout />
+
+      },
+      {
+
+        path: "/Addjob",
+        element: <MyPost />
 
       },
 
