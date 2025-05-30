@@ -15,6 +15,8 @@ import DetlisPage from './componet/home/DetlisPage.jsx';
 import JobApply from './componet/home/JobApply.jsx';
 import AuthProvider from './componet/provider/AuthProvider.jsx';
 import Login from './componet/login/Login.jsx';
+import MyAppLation from './componet/home/MyAppLation.jsx';
+import ViewAppcalation from './componet/home/ViewAppcalation.jsx';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,11 @@ const router = createBrowserRouter([
         element: <JobApply />,
 
       },
+
+      {
+        path: "/apllacition",
+        element: <MyAppLation />
+      },
     
       {
         path: "/PostJob",
@@ -65,7 +72,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />
+      },
+      {
+        path: "/detlis/:job_id",
+        element: <ViewAppcalation />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}appletion/job/${params.job_id}`)
       }
+      
     ]
   },
 ]);

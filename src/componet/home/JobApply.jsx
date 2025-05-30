@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { useContext, useState } from "react";
-import {  useParams } from "react-router-dom";
+import {  Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../provider/AuthProvider";
 
@@ -110,12 +110,15 @@ function JobApply() {
                ></textarea>
             </div>
 
-            <button
-               type="submit"
-               className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
-               Apply Now
-            </button>
+            <Link to={"/apllacition"}>
+               
+               <button
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+               >
+                  Apply Now
+               </button>
+            </Link>
          </form>
       </div>
    );
