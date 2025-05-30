@@ -1,9 +1,11 @@
-import { useUser } from "@clerk/clerk-react";
+
 import axios from "axios";
+import { useContext } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "../provider/AuthProvider";
 
 function PostJob() {
-   const { user } = useUser();
+   const { user } = useContext(AuthContext);
    // console.log(user);
 
    const handleSubmit = async (e) => {
@@ -22,19 +24,19 @@ function PostJob() {
          ...rest
       } = data;
 
-      // Dummy employer info (replace with real auth user if possible)
+      // Employer info from logged-in user
       const employer = {
-         name: user?.fullName || "Unknown Employer",
-         email: user?.emailAddresses?.[0]?.emailAddress || "no-email@example.com",
-         photo: user?.imageUrl || "https://i.ibb.co/mXD5MNf/facebook.png",
+         name: user?.displayName || "Unknown Employer",
+         email: user?.email || "noemail@example.com",
+         photo: user?.photoURL || "https://i.ibb.co/mXD5MNf/facebook.png",
       };
 
       const jobData = {
          ...rest,
          salaryRange: {
-            min: parseInt(minSalary, 10),
-            max: parseInt(maxSalary, 10),
-            currency,
+            min: parseInt(minSalary, 10) || 0,
+            max: parseInt(maxSalary, 10) || 0,
+            currency: currency || "usd",
          },
          requirements: requirements
             ? requirements.split(",").map((r) => r.trim())
@@ -59,6 +61,7 @@ function PostJob() {
          toast.error("❌ Failed to post job!");
       }
    };
+   
 
    return (
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-xl">
@@ -158,7 +161,7 @@ function PostJob() {
                </div>
                <div>
                   <label className="block text-sm font-medium">Contact Email (HR)</label>
-                  <input defaultValue={user?.emailAddresses || ""} readOnly name="hr_email" required className="w-full border p-2 rounded-md" />
+                  <input defaultValue={user?.email|| ""} readOnly name="hr_email" required className="w-full border p-2 rounded-md" />
                </div>
             </div>
 
@@ -166,7 +169,8 @@ function PostJob() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                <div>
                   <label className="block text-sm font-medium">HR Name</label>
-                  <input defaultValue={user?.fullName || ""} name="hr_name" readOnly className="w-full border p-2 rounded-md" />
+                  <input defaultValue={user?.displayName || ""} name="hr_name" readOnly className="w-full border p-2 rounded-md" />
+
                </div>
                <div>
                   <label className="block text-sm font-medium">Company Website</label>

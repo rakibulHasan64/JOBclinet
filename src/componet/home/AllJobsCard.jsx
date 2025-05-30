@@ -1,7 +1,8 @@
 import { FaRegBookmark } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function AllJobsCard({ job }) {
-   const { title, company, company_logo, jobType, salaryRange, location, website, requirements } = job;
+   const { title, company, company_logo, jobType, salaryRange, location,  requirements } = job;
 
    const salaryText = `${salaryRange?.min} - ${salaryRange?.max} ${salaryRange?.currency?.toUpperCase()}`;
 
@@ -42,14 +43,14 @@ function AllJobsCard({ job }) {
          <div className="flex justify-between items-center mb-5">
             <p className="text-sm text-gray-500">{location}</p>
 
-            <a
-               href={website}
-               target="_blank"
-               rel="noopener noreferrer"
+            <Link 
+               to={`/job/${job._id}`}
+         
+            
                className="block w-fit mt-4 px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700"
             >
                APPLY
-            </a>
+            </Link>
          </div>
       </div>
    );

@@ -11,6 +11,10 @@ import { ToastContainer } from 'react-toastify';
 import AllJobs from './componet/home/AllJobs.jsx';
 import AllJobLayout from './componet/home/AllJobLayout.jsx';
 import MyPost from './componet/home/MyPost.jsx';
+import DetlisPage from './componet/home/DetlisPage.jsx';
+import JobApply from './componet/home/JobApply.jsx';
+import AuthProvider from './componet/provider/AuthProvider.jsx';
+import Login from './componet/login/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -40,21 +44,38 @@ const router = createBrowserRouter([
         element: <MyPost />
 
       },
+      {
+        path: "/job/:id",
+        element: <DetlisPage />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}jobdetlis/${params.id}`)
+      },
 
+      {
+
+        path: "/apply/:id",
+        element: <JobApply />,
+
+      },
+    
       {
         path: "/PostJob",
         element: <PostJob />
+      },
+      {
+        path: "/login",
+        element: <Login />
       }
     ]
   },
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
-      <>
+  
+      <AuthProvider>
         <RouterProvider router={router} />
         <ToastContainer position="top-right" autoClose={3000} />
-      </>
-    </ClerkProvider>
+      </AuthProvider>
+  
   </StrictMode>
 );
