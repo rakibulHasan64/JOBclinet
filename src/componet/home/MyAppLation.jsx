@@ -10,11 +10,14 @@ function MyAppLation() {
    
    const [loading, setLoading] = useState(true);
 
+
+
+
    useEffect(() => {
       if (!user?.email) return;
 
       setLoading(true);
-      myApplacation(user.email)
+      myApplacation(user.email, user?.accessToken)
          .then((data) => {
             setApplications(data);
          })

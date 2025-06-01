@@ -5,22 +5,28 @@ import { AuthContext } from "../provider/AuthProvider";
 function MyPost() {
    const [mypost, setMypost] = useState([]);
    const { user } = useContext(AuthContext);
+   const accessToken = user?.accessToken;
 
    const email = user?.email;
    const apiUrl = import.meta.env.VITE_API_URL;
-
    useEffect(() => {
-      if (!email) return;
+      if (!email || !accessToken) return;
 
       axios
-         .get(`${apiUrl}jobsUser/email`, { params: { email } })
+         .get(`${apiUrl}jobsUser/email`, {
+            params: { email },
+            headers: {
+               authorization: `Bearer ${accessToken}`
+            }
+         })
          .then((res) => {
             setMypost(res.data);
          })
          .catch((err) => {
             console.error("Error fetching jobs:", err);
          });
-   }, [apiUrl, email]);
+   }, [apiUrl, email, accessToken]);
+   
 
    return (
       <div className="max-w-6xl h-screen mx-auto p-4 mt-20">

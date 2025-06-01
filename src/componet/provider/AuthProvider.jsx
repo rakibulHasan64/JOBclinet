@@ -2,8 +2,8 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../auth/firevase.config";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import axios from "axios";
-const apiUrl = import.meta.env.VITE_API_URL;
+// import axios from "axios";
+// const apiUrl = import.meta.env.VITE_API_URL;
 
 
 export const AuthContext = createContext();
@@ -52,17 +52,17 @@ function AuthProvider({ children }) {
          setUser(currentUser);
          setLoading(false);
 
-         if (currentUser?.email) {
-            const userData = { email: currentUser.email };
+         // if (currentUser?.email) {
+         //    const userData = { email: currentUser.email };
 
-            axios.post(`${apiUrl}jwt`, userData, {
-               withCredentials: true,
-            })
-               .then(res => {
-                  console.log("token is", res.data); // শুধু দেখানো হচ্ছে
-               })
-               .catch(err => console.log(err));
-         }
+         //    axios.post(`${apiUrl}jwt`, userData, {
+         //       withCredentials: true,
+         //    })
+         //       .then(res => {
+         //          console.log("token is", res.data); // শুধু দেখানো হচ্ছে
+         //       })
+         //       .catch(err => console.log(err));
+         // }
       });
 
       return () => unsubscribe();
