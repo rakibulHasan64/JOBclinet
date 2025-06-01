@@ -64,6 +64,8 @@ const router = createBrowserRouter([
         path: "/apllacition",
         element: <MyAppLation />
       },
+
+    
     
       {
         path: "/PostJob",
@@ -78,7 +80,12 @@ const router = createBrowserRouter([
         element: <ViewAppcalation />,
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}appletion/job/${params.job_id}`)
+            .then(res => {
+              if (!res.ok) throw new Error('Failed to load applications');
+              return res.json();
+            })
       }
+      
       
     ]
   },

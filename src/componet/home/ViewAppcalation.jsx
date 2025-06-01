@@ -1,6 +1,10 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 
 function ViewAppcalation() {
+
+   const { id } = useParams();
+   console.log(id);
+   
    const data = useLoaderData(); 
    console.log(data);
    

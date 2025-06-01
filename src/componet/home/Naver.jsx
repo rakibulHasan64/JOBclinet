@@ -11,6 +11,7 @@ export const Naver = () => {
       ...(user
          ? [
             { name: "Post Job", path: "/PostJob" },
+            { name: "My Applaction", path: "/apllacition" },
             { name: "My Post", path: "/Addjob" },
          ]
          : []),

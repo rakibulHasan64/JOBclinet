@@ -6,6 +6,8 @@ import { myApplacation } from "../../api/applactionApi";
 function MyAppLation() {
    const { user } = useContext(AuthContext);
    const [applications, setApplications] = useState([]);
+   console.log(applications);
+   
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {

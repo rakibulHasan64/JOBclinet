@@ -4,20 +4,7 @@ import { Link } from "react-router-dom";
 function AppLection({ myApplacation }) {
    const [applications, setApplications] = useState(myApplacation || []);
 
-   // ডিলিট হ্যান্ডলার: এখানে তোমার API কল করতে পারো ডিলিটের জন্য
-   const handleDelete = (id) => {
-      // এখন শুধু লোকালি ডিলিট দেখাচ্ছে
-      const filtered = applications.filter(app => app._id !== id);
-      setApplications(filtered);
-
-      // TODO: API কল দিয়ে ডিলিট করো, যেমন:
-      // fetch(`${apiUrl}applications/${id}`, { method: 'DELETE' })
-      //   .then(res => res.json())
-      //   .then(() => {
-      //      setApplications(filtered);
-      //   })
-      //   .catch(console.error);
-   };
+   
 
    return (
       <div className="max-w-5xl mx-auto mt-10 p-4 h-screen flex flex-col justify-center items-center">
@@ -35,18 +22,18 @@ function AppLection({ myApplacation }) {
                </tr>
             </thead>
             <tbody>
-               {applications.length === 0 && (
+               {applications?.length === 0 && (
                   <tr>
                      <td colSpan="7" className="text-center p-4">
                         No applications found.
                      </td>
                   </tr>
                )}
-               {applications.map((app) => (
+               {applications?.map((app) => (
                   <tr key={app._id} className="hover:bg-gray-100">
                      <td className="border border-gray-300 p-2">{app.name}</td>
                      <td className="border border-gray-300 p-2">{app.email}</td>
-                     <td className="border border-gray-300 p-2">{app.jobId}</td>
+                     {/* <td className="border border-gray-300 p-2">{app.jobId}</td>
                      <td className="border border-gray-300 p-2">
                         {new Date(app.appliedAt).toLocaleDateString()}
                      </td>
@@ -60,10 +47,10 @@ function AppLection({ myApplacation }) {
                         >
                            View Resume
                         </a>
-                     </td>
+                     </td> */}
                      <td className="border border-gray-300 p-2">
                         <button
-                           onClick={() => handleDelete(app._id)}
+                           
                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                         >
                            Delete
@@ -71,15 +58,13 @@ function AppLection({ myApplacation }) {
                      </td>
 
                      <td className="border border-gray-300 p-2">
-                        <Link to={`/detlis/${app._id}`}>
-                           <button
-
-                              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                           >
-                              Detelis
+                        <Link to={`/detlis/${app.jobId}`}>
+                           <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                              Details
                            </button>
                         </Link>
                      </td>
+
                   </tr>
                ))}
             </tbody>
