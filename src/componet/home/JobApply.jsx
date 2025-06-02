@@ -12,8 +12,7 @@ function JobApply() {
    const [error, setError] = useState("");
    const [success, setSuccess] = useState("");
 
-
-   const handleSubmit =async  (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
 
       const formData = new FormData(e.target);
@@ -27,18 +26,20 @@ function JobApply() {
 
       data.jobId = jobId;
       data.appliedAt = new Date().toISOString();
+      data.status = "Updated Status"; // ✅ Status added here
 
       const apiUrl = import.meta.env.VITE_API_URL;
 
       try {
          await axios.post(`${apiUrl}jobapply`, data);
-         toast.success("✅ Job posted successfully!");
+         toast.success("✅ Job applied successfully!");
          e.target.reset();
       } catch (error) {
          console.error("Job post error:", error);
-         toast.error("❌ Failed to post job!");
+         toast.error("❌ Failed to apply!");
       }
    };
+   
    
 
    

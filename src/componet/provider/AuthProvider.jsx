@@ -51,24 +51,11 @@ function AuthProvider({ children }) {
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
          setUser(currentUser);
          setLoading(false);
-
-         // if (currentUser?.email) {
-         //    const userData = { email: currentUser.email };
-
-         //    axios.post(`${apiUrl}jwt`, userData, {
-         //       withCredentials: true,
-         //    })
-         //       .then(res => {
-         //          console.log("token is", res.data); // শুধু দেখানো হচ্ছে
-         //       })
-         //       .catch(err => console.log(err));
-         // }
       });
 
+      // Cleanup
       return () => unsubscribe();
    }, []);
-    
-
 
 
    

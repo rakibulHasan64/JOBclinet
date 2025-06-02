@@ -1,45 +1,41 @@
 import { useEffect, useState, useContext } from "react";
-import AppLection from "./AppLection";
 import { AuthContext } from "../provider/AuthProvider";
-import { myApplacation } from "../../api/applactionApi";
+import AppLection from "./AppLection";
+import { myApplication } from "../../api/applactionApi";
 
-function MyAppLation() {
+function MyApplication() {
    const { user } = useContext(AuthContext);
    const [applications, setApplications] = useState([]);
-   console.log(applications);
-   
    const [loading, setLoading] = useState(true);
-
-
-
 
    useEffect(() => {
       if (!user?.email) return;
 
-      setLoading(true);
-      myApplacation(user.email, user?.accessToken)
-         .then((data) => {
-            setApplications(data);
+      myApplication(user.email)
+         .then(data => {
+            setApplications(data || []);
          })
-         .catch((err) => {
-            console.error(err);
-            setApplications([]);
+         .catch(err => {
+            console.error("Unexpected error:", err);
          })
-         .finally(() => {
-            setLoading(false);
-         });
-   }, [user]);
+         .finally(() => setLoading(false));
+   }, [user?.email]);
 
-   if (loading) return <div className="h-screen flex justify-center items-center ">Loading...</div>;
+   if (loading) {
+      return (
+         <div className="h-screen flex justify-center items-center">
+            Loading...
+         </div>
+      );
+   }
 
    return (
-      <div>
-         <AppLection myApplacation={applications} />
+      <div className="py-20">
+         <AppLection applications={applications} />
       </div>
    );
 }
 
-export default MyAppLation;
-
+export default MyApplication;
 
 
