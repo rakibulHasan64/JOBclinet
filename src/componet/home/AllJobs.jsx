@@ -3,8 +3,19 @@ import AllJobsCard from "./AllJobsCard";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 
-function AllJobs({ search }) {
+
+function AllJobs({ search}) {
+
+   
+   
+
+   
+
+   
+   
+   
    const [job, setJob] = useState([]);
+
 
    useEffect(() => {
       const apiUrl = import.meta.env.VITE_API_URL;
@@ -26,6 +37,8 @@ function AllJobs({ search }) {
    return (
       <div className="bg-green-50 min-h-screen py-10 px-4">
          <div className="max-w-7xl mx-auto mt-14">
+
+            {/* <p className="text-sm text-gray-500">{company}</p> */}
             <div className="flex items-center justify-between mb-6">
                <button className="flex items-center gap-1 text-sm px-4 py-2 border rounded-md hover:bg-gray-100 bg-white text-gray-700">
                   <FaFilter /> Filter
@@ -49,6 +62,10 @@ function AllJobs({ search }) {
                {job.map((job) => (
                   <AllJobsCard key={job._id} job={job} />
                ))}
+            </div>
+
+            <div className="">
+               fageintion
             </div>
          </div>
       </div>

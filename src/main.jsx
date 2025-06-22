@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode} from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
@@ -18,6 +18,9 @@ import Login from './componet/login/Login.jsx';
 import MyAppLation from './componet/home/MyAppLation.jsx';
 import ViewAppcalation from './componet/home/ViewAppcalation.jsx';
 
+
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,11 +38,21 @@ const router = createBrowserRouter([
 
       },
 
+    
+
       {
         path: "/alljob",
-        element: <AllJobLayout />
-
+        element: <AllJobLayout />,
+        loader: async () => {
+          const apiUrl = import.meta.env.VITE_API_URL?.replace(/\/+$/, "") + "/";
+          const res = await fetch(`${apiUrl}jobcount`);
+          if (!res.ok) throw new Error("Failed to fetch job count");
+          return res.json();
+        },
+        hydrateFallbackElement: <div className="">loddinge....</div>
+        
       },
+     
       {
 
         path: "/Addjob",

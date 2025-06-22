@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function ViewAppcalation() {
    const loadedApplications = useLoaderData();
@@ -8,24 +9,41 @@ function ViewAppcalation() {
 
    const apiUrl = import.meta.env.VITE_API_URL?.replace(/\/?$/, "/");
 
-   const handleStatusChange = async (e, application) => {
-      const newStatus = e.target.value;
-      const applicationId = application._id;
+   
 
-      try {
-         await axios.patch(`${apiUrl}aplaction/${applicationId}`, {
-            status: newStatus,
+   const handleStatusUpdate = (e, id) => {
+      console.log(e.target.value, id);
+      const data = {
+         status: e.target.value
+      };
+
+      fetch(`${apiUrl}aplaction/${id}`, {
+         method: 'PATCH',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(data)
+      })
+         .then(res => {
+            if (!res.ok) {
+               throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+         })
+         .then(data => {
+            if (data.modifiedCount) {
+               toast.success("✅ Status updated successfully!");
+            } else {
+               toast.info("ℹ️ Status not updated. Maybe already same?");
+            }
+         })
+         .catch(err => {
+            console.error("Update failed:", err);
+            toast.error("❌ Something went wrong while updating status.");
          });
-
-         // ✅ Local state update
-         const updatedApps = applications.map((app) =>
-            app._id === applicationId ? { ...app, status: newStatus } : app
-         );
-         setApplications(updatedApps);
-      } catch (error) {
-         console.error("Failed to update status:", error);
-      }
    };
+
+   
 
    return (
       <div className="py-14 container mx-auto mt-32">
@@ -59,18 +77,18 @@ function ViewAppcalation() {
                         <td className="border px-4 py-2">
                            {new Date(app.appliedAt).toLocaleString()}
                         </td>
-                        <td className="border px-4 py-2">
-                           <select
-                              value={app.status || "Pending"}
-                              onChange={(e) => handleStatusChange(e, app)}
-                              className="border rounded px-2 py-1"
-                           >
-                              <option value="Pending">Pending</option>
-                              <option value="Rejected">Rejected</option>
-                              <option value="Interview">Interview</option>
-                              <option value="Call Me">Under Review</option>
-                           </select>
-                        </td>
+                        <select
+                           onChange={(e) => handleStatusUpdate(e, app._id)}
+                           defaultValue={app.status || ''}
+                           className="w-full max-w-xs px-3 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition ease-in-out duration-150"
+                        >
+                           <option disabled value="">Change Status</option>
+                           <option value="Under Review">Panddinge</option>
+                           <option value="Set Interview">Set Interview</option>
+                           <option value="Hired">Hired</option>
+                           <option value="Rejected">Rejected</option>
+                        </select>
+
                      </tr>
                   ))}
                </tbody>
